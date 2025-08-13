@@ -29,7 +29,7 @@ app.use(cors({
     origin: allowedOrigins,
     credentials: true
 }))
-
+app.set("trust proxy", 1); 
 
 app.get('/', (req, res) => {
     res.send("API Working")
