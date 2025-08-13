@@ -206,7 +206,7 @@ export const stripeWebhook = async (req, res) => {
             await Order.findByIdAndUpdate(orderId, {isPaid: true})
 
             // clear user cart
-            await User.findByIdAndDelete(userId, {cartItems: {}})
+            await User.findByIdAndUpdate(userId, {cartItems: {}})
             break;
         }
 
