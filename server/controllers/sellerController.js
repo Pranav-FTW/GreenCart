@@ -13,16 +13,14 @@ export const sellerLogin = async (req, res) => {
                 process.env.JWT_SECRET,
                 {expiresIn: '7d'}
             )
-
-            res.cookie('sellerToken', token, {
+            
+            return res.cookie('sellerToken', token, {
                 httpOnly: true,
                 secure: true,
                 sameSite: "none",
                 path: "/",
                 maxAge: 7 * 24 * 60 * 60 * 1000
-            })
-            
-            return res.json({
+            }).json({
                 success: true,
                 message: "Seller Logged In"
             })
@@ -63,14 +61,12 @@ export const isSellerAuth = async (req, res) => {
 
 export const sellerLogout = async (req, res) => {
     try {
-        res.clearCookie('sellerToken', {
+        return res.clearCookie('sellerToken', {
             httpOnly: true,
             secure: true,
             sameSite: "none",
             path: "/",
-        })
-
-        return res.json({
+        }).json({
             success: true,
             message: "Seller Logged out"
         })
