@@ -15,7 +15,7 @@ import { stripeWebhook } from "./controllers/orderController.js"
 const app = express()
 const port = process.env.PORT || 4000
 // Allow multiple origins
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['http://localhost:5173', 'https://greencart-five-drab.vercel.app']
 
 app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhook)
 
