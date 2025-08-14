@@ -22,6 +22,8 @@ app.post('/stripe', express.raw({type: 'application/json'}), stripeWebhook)
 await connetDB()
 await connectCloudinary()
 
+app.set("trust proxy", 1);
+
 // Middlewares
 app.use(express.json())
 app.use(cookieParser())
