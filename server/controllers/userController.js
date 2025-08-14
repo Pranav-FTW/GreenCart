@@ -152,7 +152,7 @@ export const logout = async (req, res) => {
     try {
 
         return res
-        .cookie("token", token, cookieOptions)
+        .clearCookie("token", token, cookieOptions)
         .json({
             success: true,
             message: "Logged Out"
