@@ -1,5 +1,8 @@
-{
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "https://greencart-backend-tau-seven.vercel.app/api/:path*" }
-  ]
-}
+  {
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/"
+      }
+    ]
+  }
