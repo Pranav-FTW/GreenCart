@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 
 const AddProduct = () => {
 
-    const {axios} = useAppContext()
+    const {axios, token, setToken} = useAppContext()
 
     const [files, setFiles] = useState([])
     const [name, setName] = useState('')
@@ -32,7 +32,11 @@ const AddProduct = () => {
                 formData.append('images', files[i])
             }
 
-            const {data} = await axios.post('/api/product/add', formData)
+            console.log(token);
+            
+            const {data} = await axios.post('/api/product/add', formData, {
+                headers: { token }
+            })
             
             if (data.success) {
                 toast.success(data.message)

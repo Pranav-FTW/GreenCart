@@ -4,11 +4,13 @@ import toast from 'react-hot-toast'
 
 const ProductList = () => {
 
-    const {products, currency, axios, fetchProducts} = useAppContext()
+    const {products, currency, axios, fetchProducts, token, setToken} = useAppContext()
 
     const toggleStock = async (id, inStock) => {
         try {
-            const {data} = await axios.post('/api/product/stock', {id, inStock})
+            const {data} = await axios.post('/api/product/stock', {id, inStock}, {
+                headers: { token }
+            })
 
             if (data.success) {
                 fetchProducts()

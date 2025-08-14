@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../context/AppContext';
 import toast from 'react-hot-toast';
 
 const Login = () => {
 
-    const {setShowUserLogin, setUser, axios, navigate} = useAppContext()
+    const {setShowUserLogin, setUser, axios, navigate, setToken, token} = useAppContext()
 
     const [state, setState] = React.useState("login");
     const [name, setName] = React.useState("");
@@ -16,10 +16,14 @@ const Login = () => {
             event.preventDefault()
 
             const {data} = await axios.post(`/api/user/${state}`, {name, email, password})
+            console.log(data);
             if (data.success) {
+                setToken(data.token);
+                localStorage.setItem('token', data.token);
                 navigate('/')  
                 setUser(data.user)
                 setShowUserLogin(false)
+                toast.success(`User ${state} successfully`);
             } else {
                 toast.error(data.message)
             }
@@ -27,6 +31,10 @@ const Login = () => {
             toast.error(error.message)
         }
     }
+
+    useEffect(() => {
+        console.log(token);
+    }, [])
 
   return (
     <div onClick={() => setShowUserLogin(false)} className='fixed top-0 bottom-0 left-0 right-0 z-30 flex items-center text-sm text-gray-600 bg-black/50'>

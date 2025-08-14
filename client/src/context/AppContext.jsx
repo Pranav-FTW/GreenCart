@@ -15,6 +15,7 @@ export const AppContextProvider = ({children}) => {
 
     const navigate = useNavigate()
     const [user, setUser] = useState(null)
+    const [token, setToken] = useState('')
     const [isSeller, setIsSeller] = useState(false)
     const [showUserLogin, setShowUserLogin] = useState(false)
     const [products, setProducts] = useState([])
@@ -24,7 +25,9 @@ export const AppContextProvider = ({children}) => {
     // Fetch seller status
     const fetchSeller = async () => {
         try {
-            const {data} = await axios.get('/api/seller/is-auth')
+            const {data} = await axios.get('/api/seller/is-auth', {
+                headers: token
+            })
 
             if (data.success) {
                 setIsSeller(true)
@@ -39,7 +42,10 @@ export const AppContextProvider = ({children}) => {
     // Fetch user auth status, user data and cart Items
     const fetchUser = async () => {
         try {
-            const {data} = await axios.get('/api/user/is-auth')
+            const {data} = await axios.get('/api/user/is-auth', {} ,{
+                headers:{
+                token : token
+            }})
 
             if (data.success) {
                 setUser(data.user)
@@ -131,7 +137,10 @@ export const AppContextProvider = ({children}) => {
     useEffect(() => {
         const updateCart = async () => {
             try {
-                const {data} = await axios.post('/api/cart/update', {cartItems})
+                const {data} = await axios.post('/api/cart/update', {cartItems}, {
+                headers:{
+                token : token
+            }})
 
                 if (!data.success) {
                     toast.error(data.message)
@@ -166,7 +175,9 @@ export const AppContextProvider = ({children}) => {
         getCartCount,
         axios,
         fetchProducts,
-        setCartItems
+        setCartItems,
+        token,
+        setToken
     }
 
     return <AppContext.Provider value={value}>

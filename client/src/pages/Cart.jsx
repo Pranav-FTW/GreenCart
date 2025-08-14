@@ -4,7 +4,7 @@ import { assets, dummyAddress } from "../assets/assets"
 import toast from "react-hot-toast"
 
 const Cart = () => {
-    const {products, currency, cartItems, removeFromCart, getCartCount, updateCartItem, navigate, getCartAmount, axios, user, setCartItems} = useAppContext()
+    const {products, currency, cartItems, removeFromCart, getCartCount, updateCartItem, navigate, getCartAmount, axios, user, setCartItems, token, setToken} = useAppContext()
 
     const [cartArray, setCartArray] = useState([])
     const [addresses, setAddresses] = useState([])
@@ -24,7 +24,13 @@ const Cart = () => {
 
     const getUserAddress = async () => {
         try {
-            const {data} = await axios.get('/api/address/get')
+            console.log(token);
+            
+            const {data} = await axios.get('/api/address/get' ,{
+                 headers: { token }
+            })
+            console.log(data);
+            
 
             if (data.success) {
                 setAddresses(data.addresses)
@@ -51,7 +57,10 @@ const Cart = () => {
                     userId: user._id,
                     items: cartArray.map(item => ({product: item._id, quantity: item.quantity})),
                     address: selectedAddress._id
-                })
+                },{
+                headers:{
+                token : token
+            }})
 
                 if (data.success) {
                     toast.success(data.message)
@@ -66,7 +75,10 @@ const Cart = () => {
                     userId: user._id,
                     items: cartArray.map(item => ({product: item._id, quantity: item.quantity})),
                     address: selectedAddress._id
-                })
+                },{
+                headers:{
+                token : token
+            }})
 
                 if (data.success) {
                     window.location.replace(data.url)

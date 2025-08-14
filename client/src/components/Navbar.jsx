@@ -7,16 +7,19 @@ import toast from 'react-hot-toast'
 
 const Navbar = () => {
     const [open, setOpen] = React.useState(false)
-    const {navigate, user, setUser, setShowUserLogin, setSearchQuery, searchQuery, getCartCount, axios} = useAppContext() 
+    const {navigate, user, setUser, setShowUserLogin, setSearchQuery, searchQuery, getCartCount, axios, token, setToken, setCartItems} = useAppContext() 
 
     const logout = async () => {
         try {
             const {data} = await axios.get('/api/user/logout')
 
             if (data.success) {
-                toast.success(data.message)
+                localStorage.removeItem('token');
+                setToken('');
+                setCartItems({});
                 setUser(null)
-                navigate('/')
+                navigate('/login');
+                toast.success(data.message)
             } else {
                 toast.error(data.message)
             }
@@ -82,7 +85,7 @@ const Navbar = () => {
 
 
             {/* Mobile Menu */}
-            {open && (<div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}>
+            {open && (<div className={`${open ? 'flex' : 'hidden'} absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden z-5`}>
                 <NavLink to='/' onClick={() => setOpen(false)}>Home</NavLink>
                 <NavLink to='/products' onClick={() => setOpen(false)}>All Product</NavLink>
                 {user && 
