@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken'
 
 const cookieOptions = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // only true in production
-    sameSite: "none", // lax for dev
+    secure: true, // only true in production
+    sameSite: "lax", // lax for dev
     path: "/",
     maxAge: 7 * 24 * 60 * 60 * 1000
 };
