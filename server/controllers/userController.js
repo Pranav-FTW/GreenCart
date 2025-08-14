@@ -2,16 +2,6 @@ import { User } from "../models/User.js"
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-
-const cookieOptions = {
-    httpOnly: true,
-    secure: true, // only true in production
-    sameSite: "lax",
-    path: "/",
-    maxAge: 7 * 24 * 60 * 60 * 1000
-};
-
-
 // Register User : /api/user/register
 export const register = async (req, res) => {
     try {
@@ -50,9 +40,9 @@ export const register = async (req, res) => {
         )
 
         return res
-        .cookie("token", token, cookieOptions)
         .json({
             success: true,
+            token,
             user: {
                 email: user.email, 
                 name: user.name
@@ -108,9 +98,9 @@ export const login = async (req, res) => {
         )
 
         return res
-        .cookie("token", token, cookieOptions)
         .json({
             success: true,
+            token,
             user: {
                 email: user.email,
                 name: user.name
@@ -152,7 +142,6 @@ export const logout = async (req, res) => {
     try {
 
         return res
-        .clearCookie("token", cookieOptions)
         .json({
             success: true,
             message: "Logged Out"

@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken'
 
 const authSeller = async (req, res, next) => {
-    const {sellerToken} = req.cookies
+    const {token} = req.headers
 
-    if (!sellerToken) {
+    if (!token) {
         return res.json({
             success: false,
             message: "Not Authorized"
@@ -11,7 +11,7 @@ const authSeller = async (req, res, next) => {
     }
 
     try {
-        const decodeToken = jwt.verify(sellerToken, process.env.JWT_SECRET)
+        const decodeToken = jwt.verify(token, process.env.JWT_SECRET)
 
         if (decodeToken.email === process.env.SELLER_EMAIL) {
             next()

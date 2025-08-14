@@ -1,13 +1,5 @@
 import jwt from 'jsonwebtoken'
 
-const cookieOptions = {
-    httpOnly: true,
-    secure: true, // only true in production
-    sameSite: "lax", // lax for dev
-    path: "/",
-    maxAge: 7 * 24 * 60 * 60 * 1000
-};
-
 // Seller Login: /api/seller/login
 export const sellerLogin = async (req, res) => {
     try {
@@ -23,10 +15,10 @@ export const sellerLogin = async (req, res) => {
             )
             
             return res
-            .cookie("sellerToken", token, cookieOptions)
             .json({
                 success: true,
-                message: "Seller Logged In"
+                message: "Seller Logged In",
+                token
             })
         }
          
@@ -66,10 +58,9 @@ export const isSellerAuth = async (req, res) => {
 export const sellerLogout = async (req, res) => {
     try {
         return res
-        .cookie("sellerToken", token, cookieOptions)
         .json({
             success: true,
-            message: "Seller Logged out"
+            message: "Seller Logged out",
         })
         
     } catch (error) {
