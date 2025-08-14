@@ -23,7 +23,7 @@ export const sellerLogin = async (req, res) => {
             )
             
             return res
-            .cookie("token", token, cookieOptions)
+            .cookie("sellerToken", token, cookieOptions)
             .json({
                 success: true,
                 message: "Seller Logged In"
@@ -66,7 +66,7 @@ export const isSellerAuth = async (req, res) => {
 export const sellerLogout = async (req, res) => {
     try {
         return res
-        .cookie("token", token, cookieOptions)
+        .cookie("sellerToken", token, cookieOptions)
         .json({
             success: true,
             message: "Seller Logged out"
